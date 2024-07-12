@@ -276,7 +276,8 @@ class RPCEndpoint::EventHandler : public dmlc::Stream {
 
   template <typename T>
   T* ArenaAlloc(int count) {
-    static_assert(std::is_pod<T>::value, "need to be trival");
+    static_assert(std::is_standard_layout<T>::value && std::is_trivial<T>::value,
+                  "need to be trival");
     return arena_.template allocate_<T>(count);
   }
 
